@@ -29,9 +29,6 @@ void	free_shell(t_sh *sh)
 	lst_clear(&sh->env);
 	lst_clear(&sh->hidden);
 	lst_clear(&sh->local);
-	free(sh->pwd->key);
-	if (sh->pwd->value)
-		free(sh->pwd->value);
 	free(sh->pwd);
 	free(sh->pid);
 	free(sh->user);

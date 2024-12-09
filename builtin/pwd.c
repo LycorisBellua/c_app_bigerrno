@@ -5,19 +5,9 @@ static void	update_oldpwd(t_sh *sh, t_env *pwd);
 
 int	bigerrno_pwd(t_sh *sh)
 {
-	if (sh->pwd && sh->pwd->value)
-		printf("%s\n", sh->pwd->value);
+	if (sh->pwd)
+		printf("%s\n", sh->pwd);
 	return (0);
-}
-
-void	add_pwd(t_sh *sh)
-{
-	sh->pwd = ft_calloc(1, sizeof(t_sh));
-	sh->pwd->value = getcwd(NULL, 0);
-	sh->pwd->key = ft_strdup("PWD");
-	sh->pwd->withvalue = TRUE;
-	sh->pwd->prev = NULL;
-	sh->pwd->next = NULL;
 }
 
 int	update_pwd(t_sh *sh, const char *arg, int code_err)
@@ -30,14 +20,14 @@ int	update_pwd(t_sh *sh, const char *arg, int code_err)
 	cwd = get_cwd(sh, arg, &code_err);
 	if (!cwd)
 		return (code_err);
-	free(sh->pwd->value);
-	sh->pwd->value = cwd;
+	free(sh->pwd);
+	sh->pwd = cwd;
 	var = find_key(&sh->env, "PWD");
 	if (var)
 	{
 		update_oldpwd(sh, var);
 		free(var->value);
-		var->value = ft_strdup(sh->pwd->value);
+		var->value = ft_strdup(sh->pwd);
 		var->withvalue = TRUE;
 	}
 	return (code_err);
@@ -55,7 +45,7 @@ static char	*get_cwd(t_sh *sh, const char *arg, int *code_err)
 		*code_err = output_error(EPERM, compose_err_msg("cd", ERR_CD, tmp,
 					strerror(ENOENT)));
 		free(tmp);
-		tmp = ft_strjoin(sh->pwd->value, "/");
+		tmp = ft_strjoin(sh->pwd, "/");
 		cwd = ft_strjoin(tmp, arg);
 		free(tmp);
 	}

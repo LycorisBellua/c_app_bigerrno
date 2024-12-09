@@ -36,10 +36,10 @@ SRC_EXC = executor/cmd.c executor/file.c        executor/pipe.c \
 	executor/pipeline.c  executor/redirection.c executor/subprocess.c \
 	executor/wait.c
 
-SRC_BLT = built-in/bonus.c built-in/cd.c        built-in/echo.c \
-	built-in/env.c         built-in/exit.c      built-in/export.c \
-	built-in/lulu.c        built-in/matrix.c    built-in/pwd.c \
-	built-in/set.c         built-in/shoot.c     built-in/unset.c 
+SRC_BLT = builtin/bonus.c builtin/cd.c     builtin/echo.c \
+	builtin/env.c         builtin/exit.c   builtin/export.c \
+	builtin/lulu.c        builtin/matrix.c builtin/pwd.c \
+	builtin/set.c         builtin/shoot.c  builtin/unset.c 
 
 SRC_UTL = utils/array_delete.c utils/array_get.c          utils/array_update.c \
 	utils/convert_lst.c        utils/echo_escaped_token.c utils/error.c \

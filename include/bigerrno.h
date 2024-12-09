@@ -142,7 +142,7 @@ typedef struct s_sh
 	int				subshell;
 	int				keep_running;
 	int				exit_code;
-	t_env			*pwd;
+	char			*pwd;
 	t_env			*env;
 	t_env			*hidden;
 	t_env			*local;
@@ -248,7 +248,6 @@ int		lst_size(t_env **lst);
 t_env	*add_node(t_env **lst, char *key, char *value);
 t_env	*find_key(t_env **lst, char *key);
 char	*get_var_value(t_sh *sh, char *key);
-void	add_pwd(t_sh *sh);
 int		update_pwd(t_sh *sh, const char *arg, int code_err);
 int		valid_keyvalue(char *key_value);
 void	print_in_p_order(t_env **to_print, t_env **not_to_print);
