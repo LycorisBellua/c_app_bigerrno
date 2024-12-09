@@ -1,0 +1,11 @@
+# Temporary files
+*.swp
+~*
+.heredoc*
+.vscode
+
+# Compilation files
+*.o
+*.a
+a.out
+bigerrno
