@@ -208,7 +208,7 @@ int		bigerrno_exit(t_sh *sh, char **arg);
 int		bigerrno_export(t_env **env, t_env **hidden, t_env **local, char **arg);
 int		bigerrno_pwd(t_sh *sh);
 int		bigerrno_unset(t_sh *sh, char **arg);
-int		bigerrno_hidden(t_env **hidden, char **arg);
+int		bigerrno_set(t_env **hidden, char **arg);
 void	bigerrno_bonus(t_sh *sh, char **cmdl, int *code_err);
 int		bigerrno_shoot(t_sh *sh, enum e_color *color, char **arg);
 int		bigerrno_lulu(t_sh *sh, enum e_color *color);
