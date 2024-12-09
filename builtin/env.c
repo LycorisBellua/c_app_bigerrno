@@ -5,7 +5,7 @@ int	bigerrno_env(t_env **env, t_env **hidden, t_env **local, char **arg)
 	update_env(env, hidden);
 	if (!arg[1])
 	{
-		print_in_p_order(local, NULL);
+		print_in_p_order(local, 0);
 		print_in_p_order(env, local);
 	}
 	else if (arg[1])
@@ -35,19 +35,19 @@ void	print_in_p_order(t_env **to_print, t_env **not_to_print)
 	biggest = find_biggest_p(&p_order);
 	if (!smallest || !biggest || !p_order)
 		return ;
-	if (smallest && smallest->withvalue == TRUE \
-	&& ((!not_to_print || !*not_to_print) \
-	|| !find_key(not_to_print, smallest->key)))
+	if (smallest && smallest->withvalue && ((!not_to_print || !*not_to_print)
+			|| !find_key(not_to_print, smallest->key)))
 		printf("%s=%s\n", smallest->key, smallest->value);
 	while (smallest != biggest)
 	{
 		next_small = next_smallest(&p_order, smallest);
-		if (next_small && next_small->withvalue == TRUE
+		if (next_small && next_small->withvalue
 			&& !find_key(not_to_print, next_small->key))
 			printf("%s=%s\n", next_small->key, next_small->value);
 		smallest = next_small;
 	}
 	lst_clear(not_to_print);
+	return ;
 }
 
 t_env	*next_smallest(t_env **p_order, t_env *smallest)
@@ -56,11 +56,11 @@ t_env	*next_smallest(t_env **p_order, t_env *smallest)
 	t_env	*tmp;
 
 	tmp = *p_order;
-	next_small = NULL;
+	next_small = 0;
 	if (!p_order)
-		return (NULL);
+		return (0);
 	if (!smallest)
-		return (NULL);
+		return (0);
 	while (tmp)
 	{
 		if (tmp > smallest && (!next_small || tmp < next_small))

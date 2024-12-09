@@ -28,7 +28,7 @@ int	update_pwd(t_sh *sh, const char *arg, int code_err)
 		update_oldpwd(sh, var);
 		free(var->value);
 		var->value = ft_strdup(sh->pwd);
-		var->withvalue = TRUE;
+		var->withvalue = 1;
 	}
 	return (code_err);
 }
@@ -38,7 +38,7 @@ static char	*get_cwd(t_sh *sh, const char *arg, int *code_err)
 	char	*cwd;
 	char	*tmp;
 
-	cwd = getcwd(NULL, 0);
+	cwd = getcwd(0, 0);
 	if (!cwd)
 	{
 		tmp = ft_strjoin("getcwd: ", ERR_ACS_DIR);
@@ -61,10 +61,9 @@ static void	update_oldpwd(t_sh *sh, t_env *pwd)
 		oldpwd = find_key(&sh->hidden, "OLDPWD");
 	if (oldpwd)
 	{
-		if (oldpwd->value)
-			free(oldpwd->value);
+		free(oldpwd->value);
 		oldpwd->value = ft_strdup(pwd->value);
-		oldpwd->withvalue = TRUE;
+		oldpwd->withvalue = 1;
 	}
 	else
 	{
@@ -72,4 +71,5 @@ static void	update_oldpwd(t_sh *sh, t_env *pwd)
 		if (oldpwd)
 			lstadd_back(&sh->hidden, oldpwd);
 	}
+	return ;
 }

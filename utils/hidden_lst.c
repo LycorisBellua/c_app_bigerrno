@@ -8,17 +8,17 @@ int	only_var(char **arg)
 	int		i;
 
 	i = 0;
-	if (!arg || !(*arg))
-		return (FALSE);
+	if (!arg || !*arg)
+		return (0);
 	while (arg[i])
 	{
-		if (ft_strchr(arg[i], '=') == NULL)
-			return (FALSE);
-		else if (valid_keyvalue(arg[i]) == FALSE)
-			return (FALSE);
-		i++;
+		if (!ft_strchr(arg[i], '='))
+			return (0);
+		else if (!valid_keyvalue(arg[i]))
+			return (0);
+		++i;
 	}
-	return (TRUE);
+	return (1);
 }
 
 int	update_hidden(t_env **hidden, char **token)
@@ -58,6 +58,7 @@ static void	process_token(t_env **hidden, char *token)
 		free(key_value[1]);
 		lstadd_back(hidden, node);
 	}
+	return ;
 }
 
 static void	update_value(t_env *node, char *key, char *value, int is_append)
@@ -74,9 +75,9 @@ static void	update_value(t_env *node, char *key, char *value, int is_append)
 	}
 	else
 	{
-		if (node->value)
-			free(node->value);
+		free(node->value);
 		node->value = value;
 		free(key);
 	}
+	return ;
 }

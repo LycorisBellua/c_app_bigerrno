@@ -4,7 +4,7 @@ static void	process_current_line(t_sh *sh);
 
 void	run_shell(t_sh *sh)
 {
-	sh->keep_running = TRUE;
+	sh->keep_running = 1;
 	init_prompt(sh);
 	while (sh->subshell == 0 && sh->keep_running)
 	{
@@ -14,9 +14,9 @@ void	run_shell(t_sh *sh)
 		while (sh->keep_running && sh->rl.buf && sh->rl.buf[0])
 			process_current_line(sh);
 		if (g_signum == EOF)
-			handle_ctrl_d(sh, NULL);
+			handle_ctrl_d(sh, 0);
 		free_entire_array((void **)sh->rl.buf, free);
-		sh->rl.buf = NULL;
+		sh->rl.buf = 0;
 	}
 	return ;
 }

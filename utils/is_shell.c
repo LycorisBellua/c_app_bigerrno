@@ -19,7 +19,7 @@ int	is_shell(const char *shells, const char *cmd)
 			free_entire_array((void **)sh_lst, free);
 			return (1);
 		}
-		i++;
+		++i;
 	}
 	free_entire_array((void **)sh_lst, free);
 	return (0);

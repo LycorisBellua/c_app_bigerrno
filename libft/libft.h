@@ -9,6 +9,7 @@ int		ft_atoi(const char *n);
 int		ft_atoi_base(const char *n, const char *base);
 void	ft_bzero(void *s, size_t n);
 void	*ft_calloc(size_t nmemb, size_t size);
+float	ft_clamp(float n, float min, float max);
 int		ft_isalnum(int c);
 int		ft_isalpha(int c);
 int		ft_isdigit(int c);

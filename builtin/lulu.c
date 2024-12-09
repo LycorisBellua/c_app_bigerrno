@@ -4,7 +4,7 @@ static void	match_prompt_color(t_sh *sh, char *color);
 
 int	bigerrno_lulu(t_sh *sh, enum e_color *color)
 {
-	++(*color);
+	++*color;
 	if (*color >= E_DEFAULT)
 		*color = 0;
 	if (*color == E_GNOME)
@@ -35,7 +35,7 @@ int	bigerrno_disco(t_sh *sh, enum e_color *color)
 	sh->pid_disco = fork();
 	pid[0] = sh->pid_disco;
 	pid[1] = 0;
-	if (sh->pid_disco == 0)
+	if (!sh->pid_disco)
 	{
 		while ("DISCO YAY" && !g_signum)
 			bigerrno_lulu(sh, color);
@@ -51,4 +51,5 @@ static void	match_prompt_color(t_sh *sh, char *color)
 {
 	sh->prompt_color1 = color;
 	sh->prompt_color2 = color;
+	return ;
 }

@@ -50,7 +50,7 @@ static void	fork_subprocesses(t_sh *sh, int *pid)
 		else if (!pid[sh->ex->pl.index])
 		{
 			++sh->subshell;
-			update_shlvl(&sh->env, TRUE);
+			update_shlvl(&sh->env, 1);
 			free(pid);
 			child_exit_code = execute_subprocess(sh, &sh->ex->pl);
 			destroy_all_ex(sh);

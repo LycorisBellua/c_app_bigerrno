@@ -35,8 +35,8 @@ int	main(int argc, char **argv, char **envp)
 
 static void	init_env(t_sh *sh, char **envp)
 {
-	sh->env = convert_to_lst(envp);
-	sh->pwd = getcwd(NULL, 0);
-	update_shlvl(&sh->env, FALSE);
+	sh->env = convert_to_lst(envp, sh->first_arg);
+	sh->pwd = getcwd(0, 0);
+	update_shlvl(&sh->env, 0);
 	return ;
 }

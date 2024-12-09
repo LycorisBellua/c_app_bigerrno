@@ -18,8 +18,6 @@
 # include "../libft/libft.h"
 
 # define SHELL "bigerrno"
-# define FALSE 0
-# define TRUE  1
 # define SEP     28
 # define SEP_STR "\034"
 # define LOGOP_COLON 0
@@ -240,7 +238,7 @@ void	free_entire_array(void **array, void (*free_element)(void *));
 int		only_var(char **arg);
 int		update_hidden(t_env **hidden, char **token);
 void	update_shlvl(t_env **env, int inpipe);
-t_env	*convert_to_lst(char **env);
+t_env	*convert_to_lst(char **env, const char *sh_first_arg);
 t_env	*lstadd_back(t_env **lst, t_env *new);
 t_env	*lst_new(const char *key, const char *value);
 void	lst_clear(t_env **lst);

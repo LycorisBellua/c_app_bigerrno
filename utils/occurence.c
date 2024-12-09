@@ -11,7 +11,7 @@ int	firstocc(char *s, char c)
 	{
 		if (s[i] == c)
 			return (i);
-		i++;
+		++i;
 	}
 	return (-1);
 }
@@ -27,7 +27,7 @@ int	continued_occurence(char *s, char c)
 	{
 		if (s[i] == c)
 			return (i);
-		i++;
+		++i;
 	}
 	if (c == '\n')
 		return (-1);

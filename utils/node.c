@@ -7,9 +7,9 @@ t_env	*add_node(t_env **lst, char *key, char *value)
 	new = lst_new(key, value);
 	if (!new || !new->key)
 	{
-		if (new)
-			free(new);
-		return (lst_clear(lst), NULL);
+		free(new);
+		lst_clear(lst);
+		return (0);
 	}
 	lstadd_back(lst, new);
 	return (new);
@@ -24,7 +24,7 @@ void	clear_node(t_env *node)
 	if (node->next)
 		node->next->prev = node->prev;
 	free(node->key);
-	if (node->value)
-		free(node->value);
+	free(node->value);
 	free(node);
+	return ;
 }

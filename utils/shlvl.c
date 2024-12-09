@@ -15,10 +15,11 @@ void	update_shlvl(t_env **env, int inpipe)
 	{
 		shlvl = ft_atoi(var->value);
 		free(var->value);
-		if (inpipe == TRUE)
-			shlvl--;
+		if (inpipe)
+			--shlvl;
 		else
-			shlvl++;
+			++shlvl;
 		var->value = ft_itoa(shlvl);
 	}
+	return ;
 }

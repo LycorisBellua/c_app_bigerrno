@@ -35,23 +35,25 @@ static void	get_terminal_size(int *rows_cols)
 	struct termios	oldt;
 	struct termios	newt;
 
+	ft_bzero(rows_cols, 2 * sizeof(int));
 	tcgetattr(STDIN_FILENO, &oldt);
 	ft_memcpy(&newt, &oldt, sizeof(struct termios));
 	newt.c_lflag &= ~(ECHO | ICANON);
 	tcsetattr(STDIN_FILENO, TCSANOW, &newt);
 	if (pipe(pipefd) < 0)
-		return (ft_putstr_fd("Impossible pipe creation\n", STDERR_FILENO));
+		return ;
 	cpid = fork();
 	if (cpid < 0)
-		return (ft_putstr_fd("Impossible child creation\n", STDERR_FILENO));
-	if (cpid == 0)
+		return ;
+	if (!cpid)
 		execute_in_child(pipefd);
 	else
 	{
 		execute_in_parent(pipefd, rows_cols);
-		waitpid(cpid, NULL, 0);
+		waitpid(cpid, 0, 0);
 	}
 	tcsetattr(STDIN_FILENO, TCSANOW, &oldt);
+	return ;
 }
 
 static void	execute_in_child(int pipefd[2])
@@ -69,6 +71,7 @@ static void	execute_in_child(int pipefd[2])
 	}
 	close(pipefd[1]);
 	exit(0);
+	return ;
 }
 
 static void	execute_in_parent(int pipefd[2], int *rows_cols)
@@ -86,11 +89,9 @@ static void	execute_in_parent(int pipefd[2], int *rows_cols)
 		rows_cols[0] = atoi(split[0]);
 		rows_cols[1] = atoi(split[1]);
 	}
-	else
-		ft_putstr_fd("Erreur lors de la récupération des dimensions du "
-			"terminal.\n", STDERR_FILENO);
 	free_entire_array((void **)split, free);
 	close(pipefd[0]);
+	return ;
 }
 
 static void	animate_shoot(int cols)
@@ -111,13 +112,12 @@ static void	animate_shoot(int cols)
 		i = 0;
 		while (i < 80000000 / v)
 			++i;
-		v += 0.2;
-		if (v > 10.0)
-			v = 10.0;
+		v = ft_clamp(v + 0.2, 0.1, 10.0);
 	}
 	ft_putstr_fd("\r", STDOUT_FILENO);
 	i = -1;
 	while (++i < cols)
 		ft_putstr_fd(" ", STDOUT_FILENO);
 	ft_putstr_fd("\r", STDOUT_FILENO);
+	return ;
 }

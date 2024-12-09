@@ -10,31 +10,41 @@ printf \"\\033[%s;%sH\\033[1;32m%s\", o, x, letter; \
 printf \"\\033[%s;%sH\\033[1;37m%s\\033[0;0H\", a[x], x, letter; \
 if (a[x] >= $1) { a[x]=0; } }}'"
 
+static void	run_script(t_sh *sh);
+
 int	bigerrno_matrix(t_sh *sh, char **arg)
 {
 	pid_t	pid;
 	int		status;
-	char	*args[4];
 
 	if (get_array_length((void **)arg) > 1)
-		return (ft_putstr_fd("You can only choose one!\n", STDERR_FILENO), 42);
+	{
+		ft_putstr_fd("You can only choose one!\n", STDERR_FILENO);
+		return (42);
+	}
 	ft_putstr_fd("\x0c", STDOUT_FILENO);
 	ft_putstr_fd("\033[H\033[J", STDOUT_FILENO);
 	pid = fork();
 	if (pid < 0)
 		return (1);
-	if (pid == 0)
-	{
-		args[0] = "/bin/bash";
-		args[1] = "-c";
-		args[2] = MATRIX;
-		args[3] = NULL;
-		execve("/bin/bash", args, convert_to_arr(sh->env));
-		ft_putstr_fd("bigerrno: execve matrix: fail", STDERR_FILENO);
-		exit(1);
-	}
+	if (!pid)
+		run_script(sh);
 	status = 0;
 	waitpid(pid, &status, 0);
 	ft_putstr_fd("\x0c", STDOUT_FILENO);
 	return (WIFEXITED(status) || 1);
+}
+
+static void	run_script(t_sh *sh)
+{
+	char	*args[4];
+
+	args[0] = "/bin/bash";
+	args[1] = "-c";
+	args[2] = MATRIX;
+	args[3] = 0;
+	execve("/bin/bash", args, convert_to_arr(sh->env));
+	ft_putstr_fd("bigerrno: execve matrix: fail", STDERR_FILENO);
+	exit(1);
+	return ;
 }

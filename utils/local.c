@@ -14,6 +14,7 @@ void	extract_local_update(char ***cmd, t_env **local)
 	update_local(cmd, local, &i);
 	if (i > 0)
 		remove_array_elements((void **)(*cmd), 0, i - 1, free);
+	return ;
 }
 
 static int	add_local(t_env **local, char **key_value)
@@ -38,8 +39,7 @@ static void	update_local(char ***cmd, t_env **local, int *i)
 
 	while ((*cmd)[*i])
 	{
-		if (ft_strchr((*cmd)[*i], '=') == 0 ||
-		valid_keyvalue((*cmd)[*i]) == FALSE)
+		if (!ft_strchr((*cmd)[*i], '=') || !valid_keyvalue((*cmd)[*i]))
 			break ;
 		key_value = parse_key_value((*cmd)[*i]);
 		node = find_key(local, key_value[0]);
@@ -54,8 +54,9 @@ static void	update_local(char ***cmd, t_env **local, int *i)
 			if (add_local(local, key_value) < 0)
 				break ;
 		}
-		(*i)++;
+		++*i;
 	}
+	return ;
 }
 
 static char	**parse_key_value(char *to_separate)
@@ -65,10 +66,10 @@ static char	**parse_key_value(char *to_separate)
 	int		end;
 
 	if (!to_separate)
-		return (NULL);
+		return (0);
 	separator = ft_strchr(to_separate, '=');
 	if (separator)
-		*separator = ';';
+		*separator = SEP;
 	else
 	{
 		key_value = ft_calloc(2, sizeof(char *));
@@ -83,6 +84,6 @@ static char	**parse_key_value(char *to_separate)
 		key_value[1] = ft_strdup("");
 	}
 	else
-		key_value = ft_split(to_separate, ';');
+		key_value = ft_split(to_separate, SEP);
 	return (key_value);
 }

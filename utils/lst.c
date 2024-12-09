@@ -7,18 +7,18 @@ t_env	*lst_new(const char *key, const char *value)
 	t_env	*node;
 
 	if (!key)
-		return (NULL);
+		return (0);
 	node = ft_calloc(1, sizeof(t_env));
 	if (!node)
-		return (NULL);
+		return (0);
 	node->key = ft_strdup(key);
 	if (value)
 		node->value = ft_strdup(value);
 	else
-		node->value = NULL;
-	node->withvalue = (value != NULL);
-	node->next = NULL;
-	node->prev = NULL;
+		node->value = 0;
+	node->withvalue = value != 0;
+	node->next = 0;
+	node->prev = 0;
 	return (node);
 }
 
@@ -27,9 +27,9 @@ t_env	*lstadd_back(t_env **lst, t_env *new)
 	t_env	*tmp;
 
 	if (!new)
-		return (NULL);
+		return (0);
 	tmp = *lst;
-	if (*lst == NULL)
+	if (!*lst)
 	{
 		*lst = new;
 		return (*lst);
@@ -49,7 +49,7 @@ int	lst_size(t_env **lst)
 	loc = *lst;
 	while (loc)
 	{
-		size++;
+		++size;
 		loc = loc->next;
 	}
 	return (size);
@@ -67,18 +67,18 @@ void	lst_clear(t_env **lst)
 	{
 		next = current->next;
 		free(current->key);
-		if (current->value)
-			free(current->value);
+		free(current->value);
 		free(current);
 		current = next;
 	}
-	*lst = NULL;
+	*lst = 0;
+	return ;
 }
 
 static t_env	*lst_last(t_env *last)
 {
 	if (!last)
-		return (NULL);
+		return (0);
 	while (last->next)
 		last = last->next;
 	return (last);

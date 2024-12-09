@@ -5,15 +5,15 @@ t_env	*find_key(t_env **lst, char *key)
 	t_env	*tmp;
 
 	if (!key || !lst || !*lst)
-		return (NULL);
+		return (0);
 	tmp = *lst;
 	while (tmp)
 	{
-		if (ft_strcmp(tmp->key, key) == 0)
+		if (!ft_strcmp(tmp->key, key))
 			return (tmp);
 		tmp = tmp->next;
 	}
-	return (NULL);
+	return (0);
 }
 
 char	*extract_key(int separator, char *key_value)
@@ -29,12 +29,12 @@ char	*get_var_value(t_sh *sh, char *key)
 {
 	t_env	*var;
 
-	var = NULL;
+	var = 0;
 	if (sh->hidden)
 		var = find_key(&sh->hidden, key);
 	if (!var && sh->env)
 		var = find_key(&sh->env, key);
 	if (var)
 		return (var->value);
-	return (NULL);
+	return (0);
 }

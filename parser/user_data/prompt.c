@@ -61,7 +61,7 @@ static char	*get_prompt_path(t_sh *sh)
 	if (!str_path)
 	{
 		alloc = 1;
-		str_path = getcwd(NULL, 0);
+		str_path = getcwd(0, 0);
 		if (!str_path)
 			str_path = ft_strdup(".");
 	}

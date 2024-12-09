@@ -1,16 +1,16 @@
 #include "bigerrno.h"
 
-static void	get_small_env(t_env	**lst);
+static void	get_small_env(t_env	**lst, const char *sh_first_arg);
 static void	copy_to_lst(char **env, t_env **lst);
 static void	lst_in_p_order(t_env **env);
 
-t_env	*convert_to_lst(char **env)
+t_env	*convert_to_lst(char **env, const char *sh_first_arg)
 {
 	t_env	*lst;
 
-	lst = NULL;
+	lst = 0;
 	if (!env[0])
-		get_small_env(&lst);
+		get_small_env(&lst, sh_first_arg);
 	else
 		copy_to_lst(env, &lst);
 	if (lst)
@@ -33,13 +33,14 @@ void	swap_node_content(t_env *s1, t_env *s2)
 	tmp_value = s1->value;
 	s1->value = s2->value;
 	s2->value = tmp_value;
+	return ;
 }
 
-static void	get_small_env(t_env	**lst)
+static void	get_small_env(t_env	**lst, const char *sh_first_arg)
 {
 	t_env	*new;
 
-	new = lst_new("PWD", getcwd(NULL, 0));
+	new = lst_new("PWD", getcwd(0, 0));
 	if (!new)
 		lst_clear(lst);
 	lstadd_back(lst, new);
@@ -52,7 +53,7 @@ static void	get_small_env(t_env	**lst)
 	if (!new)
 		lst_clear(lst);
 	lstadd_back(lst, new);
-	new = lst_new("_", "./bigerrno");
+	new = lst_new("_", sh_first_arg);
 	if (!new)
 		lst_clear(lst);
 	lstadd_back(lst, new);
@@ -60,6 +61,7 @@ static void	get_small_env(t_env	**lst)
 	if (!new)
 		lst_clear(lst);
 	lstadd_back(lst, new);
+	return ;
 }
 
 static void	copy_to_lst(char **env, t_env **lst)
@@ -84,8 +86,9 @@ static void	copy_to_lst(char **env, t_env **lst)
 		if (!new)
 			return (lst_clear(lst));
 		lstadd_back(lst, new);
-		i++;
+		++i;
 	}
+	return ;
 }
 
 static void	lst_in_p_order(t_env **env)
@@ -108,4 +111,5 @@ static void	lst_in_p_order(t_env **env)
 		swap_node_content(smallest, next_small);
 		smallest = next_small;
 	}
+	return ;
 }

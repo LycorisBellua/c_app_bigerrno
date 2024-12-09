@@ -76,7 +76,7 @@ static int	is_dirent_a_directory(struct dirent *ent, const char *path)
 	fullpath = ft_strjoin(path, ent->d_name);
 	if (!fullpath)
 		return (0);
-	is_dir = stat(fullpath, &statbuf) == 0 && S_ISDIR(statbuf.st_mode);
+	is_dir = !stat(fullpath, &statbuf) && S_ISDIR(statbuf.st_mode);
 	free(fullpath);
 	return (is_dir);
 }

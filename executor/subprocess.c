@@ -61,7 +61,7 @@ static void	run_cmd(t_sh *sh, t_pl *pl, char *cmd_fullpath)
 
 	if (is_shell(sh->shells, cmd_fullpath))
 	{
-		update_shlvl(&sh->env, FALSE);
+		update_shlvl(&sh->env, 0);
 		p_slash = ft_strrchr(cmd_fullpath, '/');
 		if (!ft_strcmp(cmd_fullpath, "bigerrno")
 			|| (p_slash && !ft_strcmp(p_slash + 1, "bigerrno")))
@@ -86,7 +86,7 @@ static t_env	*merge_lst(t_env *lst1, t_env *lst2)
 	t_env	*merge;
 	t_env	*node;
 
-	merge = NULL;
+	merge = 0;
 	while (lst1)
 	{
 		node = lst_new(lst1->key, lst1->value);
@@ -97,7 +97,7 @@ static t_env	*merge_lst(t_env *lst1, t_env *lst2)
 	}
 	while (lst2)
 	{
-		if (find_key(&merge, lst2->key) == NULL)
+		if (!find_key(&merge, lst2->key))
 		{
 			node = lst_new(lst2->key, lst2->value);
 			if (!node)
@@ -117,7 +117,7 @@ char	**convert_to_arr(t_env *env)
 	int		i;
 
 	if (!env)
-		return (NULL);
+		return (0);
 	size = lst_size(&env);
 	env_arr = ft_calloc(size + 1, sizeof(char *));
 	i = 0;

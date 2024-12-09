@@ -20,7 +20,7 @@ static char	**get_split_path(t_sh *sh)
 	if (path && path[0])
 		return (path);
 	free(path);
-	var = getcwd(NULL, 0);
+	var = getcwd(0, 0);
 	if (!var)
 		return (0);
 	path = ft_split(var, ':');

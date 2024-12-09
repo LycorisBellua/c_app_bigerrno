@@ -14,18 +14,18 @@ int	bigerrno_export(t_env **env, t_env **hidden, t_env **local, char **arg)
 	update_env(env, hidden);
 	alpha_order = alpha_order_lst(env);
 	if (get_array_length((void **)arg) == 1)
-		print_lst(&alpha_order, TRUE);
+		print_lst(&alpha_order, 1);
 	else
 	{
 		while (arg[n])
 		{
 			switch_key_to_localvar(&arg[n], local);
-			if (valid_keyvalue(arg[n]) == TRUE)
+			if (valid_keyvalue(arg[n]))
 				add_or_update_var(env, arg[n]);
 			else
 				output_error(EPERM,
 					compose_err_msg(SHELL, "export", arg[n], ERR_EXPORT));
-			n++;
+			++n;
 		}
 	}
 	lst_clear(&alpha_order);
@@ -43,7 +43,7 @@ static void	switch_key_to_localvar(char **onlykey, t_env **local)
 		return ;
 	while (tmp)
 	{
-		if (ft_strcmp(tmp->key, *onlykey) == 0)
+		if (!ft_strcmp(tmp->key, *onlykey))
 		{
 			free(*onlykey);
 			compose = ft_strjoin(tmp->key, "=");
@@ -52,6 +52,7 @@ static void	switch_key_to_localvar(char **onlykey, t_env **local)
 		}
 		tmp = tmp->next;
 	}
+	return ;
 }
 
 static void	print_lst(t_env **lst, int export)
@@ -63,22 +64,23 @@ static void	print_lst(t_env **lst, int export)
 		return ;
 	while (tmp)
 	{
-		if (export == TRUE)
+		if (export)
 		{
-			if (ft_strcmp(tmp->key, "_") == 0)
+			if (!ft_strcmp(tmp->key, "_"))
 				;
-			else if (tmp->withvalue == TRUE)
+			else if (tmp->withvalue)
 				printf("%s %s=\"%s\"\n", MSG_EXPORT, tmp->key, tmp->value);
 			else
 				printf("%s %s\n", MSG_EXPORT, tmp->key);
 		}
 		else
 		{
-			if (tmp->withvalue == TRUE)
+			if (tmp->withvalue)
 				printf("%s=%s\n", tmp->key, tmp->value);
 		}
 		tmp = tmp->next;
 	}
+	return ;
 }
 
 static void	add_or_update_var(t_env **env, char *key_value)
@@ -93,7 +95,7 @@ static void	add_or_update_var(t_env **env, char *key_value)
 	var = find_key(env, key);
 	if (var)
 	{
-		if (var->withvalue == TRUE)
+		if (var->withvalue)
 			update_var(var, key_value, separator);
 	}
 	else if (separator > 0)
@@ -103,8 +105,9 @@ static void	add_or_update_var(t_env **env, char *key_value)
 		free(value);
 	}
 	else
-		add_node(env, key_value, NULL);
+		add_node(env, key_value, 0);
 	free(key);
+	return ;
 }
 
 static void	update_var(t_env *var, char *key_value, int separator)
@@ -119,13 +122,13 @@ static void	update_var(t_env *var, char *key_value, int separator)
 		free(var->value);
 		free(tmp_newvalue);
 		var->value = tmp_value;
-		var->withvalue = TRUE;
+		var->withvalue = 1;
 	}
 	else if (separator > 0)
 	{
-		if (var->value != NULL)
-			free(var->value);
+		free(var->value);
 		var->value = get_literal_token(key_value + separator + 1);
-		var->withvalue = TRUE;
+		var->withvalue = 1;
 	}
+	return ;
 }

@@ -5,48 +5,6 @@ It is customary to name one's shell, and we chose bigerrno. It is a pun mixing t
 
 ---
 
-## HELP
-
-```
-input = `echo a || echo b`
-
-tokens =
-`echo`
-`a`
-`||`
-`echo`
-`b`
-NULL
-
-interpreter -> list of t_ex
-
-logop -> 0 (;)
-pl -> `echo` `a` NULL
-
-logop -> 1 (||)
-pl -> `||` `echo` `b` NULL
-pl -> `echo` `b` NULL
-
-input = `echo a || echo b | ls`
-
-logop -> 1 (||)
-pl -> `||` `echo` `b` `|` `ls` NULL
-len -> 2
-pl->file->NULL
-pl -> `echo` `b` NULL
-pl -> `ls` NULL
-
-input = `echo a || echo b >> file`
-
-logop -> 1 (||)
-pl -> `||` `echo` `b` `>>` `txt.txt` NULL
-len -> 1
-pl->file->txt.txt
-pl->file->flags->O_CREAT | O_WRONLY | O_APPEND
-pl->file->io->output
-pl -> `echo` `b` NULL
-```
-
 ## List of extra features
 
 **Environment**

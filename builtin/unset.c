@@ -13,7 +13,7 @@ int	bigerrno_unset(t_sh *sh, char **arg)
 		node = find_key(&sh->env, arg[n]);
 		if (node == sh->env)
 			sh->env = node->next;
-		if (!node && ft_strcmp(arg[n], "OLDPWD") == 0)
+		if (!node && !ft_strcmp(arg[n], "OLDPWD"))
 		{
 			node = find_key(&sh->hidden, arg[n]);
 			if (node && node == sh->hidden)
@@ -21,7 +21,7 @@ int	bigerrno_unset(t_sh *sh, char **arg)
 		}
 		if (node)
 			node_clear(node);
-		n++;
+		++n;
 	}
 	return (0);
 }
@@ -40,7 +40,7 @@ static void	node_clear(t_env *node)
 	if (tmp_n)
 		tmp_n->prev = tmp_p;
 	free(node->key);
-	if (node->withvalue == TRUE)
-		free(node->value);
+	free(node->value);
 	free(node);
+	return ;
 }

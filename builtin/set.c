@@ -6,7 +6,7 @@ int	bigerrno_set(t_env **hidden, char **arg)
 	if (arg[0] && !arg[1])
 	{
 		if (hidden && *hidden)
-			print_in_p_order(hidden, NULL);
+			print_in_p_order(hidden, 0);
 	}
 	else
 	{
