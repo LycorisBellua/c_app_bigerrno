@@ -1,10 +1,6 @@
 #ifndef BIGERRNO_H
 # define BIGERRNO_H
 
-# ifndef DBUG
-#  define DBUG 0
-# endif
-
 # include <dirent.h>
 # include <errno.h>
 # include <fcntl.h>
@@ -201,7 +197,6 @@ int		execute_builtin(t_sh *sh);
 
 int		bigerrno_cd(t_sh *sh, char **arg);
 int		bigerrno_echo(char **arg);
-int		bigerrno_env(t_env **env, t_env **hidden, t_env **local, char **arg);
 int		bigerrno_exit(t_sh *sh, char **arg);
 int		bigerrno_export(t_env **env, t_env **hidden, t_env **local, char **arg);
 int		bigerrno_pwd(t_sh *sh);
@@ -248,7 +243,6 @@ t_env	*find_key(t_env **lst, char *key);
 char	*get_var_value(t_sh *sh, char *key);
 int		update_pwd(t_sh *sh, const char *arg, int code_err);
 int		valid_keyvalue(char *key_value);
-void	print_in_p_order(t_env **to_print, t_env **not_to_print);
 char	*get_literal_token(const char *s);
 char	*get_echo_escaped_token(const char *s, int *is_c_found);
 void	swap_node_content(t_env *s1, t_env *s2);

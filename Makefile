@@ -1,7 +1,6 @@
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -Iinclude -g# -fsanitize=address
 LDFLAGS = -Llibft -lft -lncurses -lreadline -lhistory
-DBUG_FLAG = -DDBUG=1
 RM = rm -f
 
 NAME = bigerrno
@@ -12,10 +11,6 @@ LIBFT_DIR = libft
 LIBFT_BIN = $(LIBFT_DIR)/libft.a
 
 all: $(LIBFT_BIN) $(NAME)
-
-debug_env: CFLAGS += $(DBUG_FLAG)
-
-debug_env: re
 
 $(LIBFT_BIN):
 	@$(MAKE) -C $(LIBFT_DIR) --silent
@@ -37,8 +32,6 @@ clean:
 fclean: clean
 	@$(RM) $(NAME) $(LIBFT_BIN)
 
-fcklean: fclean
-
 re: fclean animation all
 
-.PHONY: all clean fclean re debug_env fcklean animation
+.PHONY: all clean fclean re animation

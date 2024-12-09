@@ -12,7 +12,7 @@ int	isbuiltin(char **cmd)
 	if (!cmd[0])
 		return (0);
 	j = skip_var(cmd);
-	cmd_arr = ft_split("cd:echo:env:exit:export:pwd:set:unset:"
+	cmd_arr = ft_split("cd:echo:exit:export:pwd:set:unset:"
 			"lulu:shoot:disco:matrix", ':');
 	state = 0;
 	i = 0;
@@ -41,8 +41,6 @@ int	execute_builtin(t_sh *sh)
 		code_err = bigerrno_cd(sh, cmdl);
 	else if (!ft_strcmp(cmdl[0], "echo"))
 		code_err = bigerrno_echo(cmdl);
-	else if (!ft_strcmp(cmdl[0], "env"))
-		code_err = bigerrno_env(&sh->env, &sh->hidden, &sh->local, cmdl);
 	else if (!ft_strcmp(cmdl[0], "exit"))
 		code_err = bigerrno_exit(sh, cmdl);
 	else if (!ft_strcmp(cmdl[0], "export"))
