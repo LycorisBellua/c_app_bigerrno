@@ -1,23 +1,26 @@
 #include "bigerrno.h"
 
-static void	print_lst(t_env **lst, int export);
+static void	print_export_lst(t_env **lst);
 static void	add_or_update_var(t_env **env, char *key_value);
 static void	update_var(t_env *var, char *key_value, int separator);
 static void	switch_key_to_localvar(char **onlykey, t_env **local);
 
 int	bigerrno_export(t_env **env, t_env **hidden, t_env **local, char **arg)
 {
-	t_env	*alpha_order;
+	t_env	*sorted;
 	int		n;
 
-	n = 1;
 	update_env(env, hidden);
-	alpha_order = alpha_order_lst(env);
 	if (get_array_length((void **)arg) == 1)
-		print_lst(&alpha_order, 1);
+	{
+		sorted = alpha_order_lst(env);
+		print_export_lst(&sorted);
+		lst_clear(&sorted);
+	}
 	else
 	{
-		while (arg[n])
+		n = 0;
+		while (arg[++n])
 		{
 			switch_key_to_localvar(&arg[n], local);
 			if (valid_keyvalue(arg[n]))
@@ -25,12 +28,28 @@ int	bigerrno_export(t_env **env, t_env **hidden, t_env **local, char **arg)
 			else
 				output_error(EPERM,
 					compose_err_msg(SHELL, "export", arg[n], ERR_EXPORT));
-			++n;
 		}
+		lst_clear(local);
 	}
-	lst_clear(&alpha_order);
-	lst_clear(local);
 	return (0);
+}
+
+static void	print_export_lst(t_env **lst)
+{
+	t_env	*tmp;
+
+	tmp = *lst;
+	if (!tmp)
+		return ;
+	while (tmp)
+	{
+		if (tmp->withvalue)
+			printf("%s %s=\"%s\"\n", MSG_EXPORT, tmp->key, tmp->value);
+		else
+			printf("%s %s\n", MSG_EXPORT, tmp->key);
+		tmp = tmp->next;
+	}
+	return ;
 }
 
 static void	switch_key_to_localvar(char **onlykey, t_env **local)
@@ -49,34 +68,6 @@ static void	switch_key_to_localvar(char **onlykey, t_env **local)
 			compose = ft_strjoin(tmp->key, "=");
 			*onlykey = ft_strjoin(compose, tmp->value);
 			free(compose);
-		}
-		tmp = tmp->next;
-	}
-	return ;
-}
-
-static void	print_lst(t_env **lst, int export)
-{
-	t_env	*tmp;
-
-	tmp = *lst;
-	if (!tmp)
-		return ;
-	while (tmp)
-	{
-		if (export)
-		{
-			if (!ft_strcmp(tmp->key, "_"))
-				;
-			else if (tmp->withvalue)
-				printf("%s %s=\"%s\"\n", MSG_EXPORT, tmp->key, tmp->value);
-			else
-				printf("%s %s\n", MSG_EXPORT, tmp->key);
-		}
-		else
-		{
-			if (tmp->withvalue)
-				printf("%s=%s\n", tmp->key, tmp->value);
 		}
 		tmp = tmp->next;
 	}

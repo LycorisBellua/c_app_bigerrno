@@ -1,0 +1,22 @@
+THE "_" ENV VAR
+
+- The "_" var is initialized to the input used to call the shell or script 
+(argv[0]). Keep this value for `$0`, and remove the var from the env list to 
+store it in the intern list.
+- It doesn't show in the export list, because it belongs to the intern var 
+list. Don't ever export it.
+- It is updated to the last arg of the most recent simple command (= no pipe).
+- Within a pipeline, it is added to the env list and is set to the relative 
+path of the command (the future argv[0] of this command).
+
+--------------------------------------------------------------------------------
+
+THE "SHLVL" ENV VAR
+
+- If the var doesn't exist when opening bigerrno or before calling execve, 
+initialize it to 0.
+- Then, increment it when opening bigerrno.
+- In the child process, decrement it unless the command is a shell.
+
+--------------------------------------------------------------------------------
+

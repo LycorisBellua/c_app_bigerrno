@@ -48,7 +48,7 @@ int	execute_builtin(t_sh *sh)
 	else if (!ft_strcmp(cmdl[0], "pwd"))
 		code_err = bigerrno_pwd(sh);
 	else if (!ft_strcmp(cmdl[0], "set"))
-		code_err = bigerrno_set(&sh->hidden, cmdl);
+		code_err = bigerrno_set(sh->hidden, cmdl);
 	else if (!ft_strcmp(cmdl[0], "unset"))
 		code_err = bigerrno_unset(sh, cmdl);
 	else
