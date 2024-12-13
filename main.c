@@ -2,9 +2,9 @@
 
 int	g_signum;
 
-static void	init_env(t_sh *sh, char **envp);
+static void	init_env(t_sh *sh);
 
-int	main(int argc, char **argv, char **envp)
+int	main(int argc, char **argv)
 {
 	t_sh	sh;
 
@@ -25,7 +25,7 @@ int	main(int argc, char **argv, char **envp)
 	sh.home = get_home_path(&sh, sh.user);
 	sh.shells = get_shells(&sh);
 	sh.color = E_GNOME;
-	init_env(&sh, envp);
+	init_env(&sh);
 	run_shell(&sh);
 	free_shell(&sh);
 	if (sh.subshell == 0)
@@ -33,9 +33,9 @@ int	main(int argc, char **argv, char **envp)
 	return (sh.exit_code);
 }
 
-static void	init_env(t_sh *sh, char **envp)
+static void	init_env(t_sh *sh)
 {
-	sh->env = convert_to_lst(envp, sh->first_arg);
+	sh->env = convert_to_lst(environ, sh->first_arg);
 	sh->pwd = getcwd(0, 0);
 	update_shlvl(&sh->env, 0);
 	return ;

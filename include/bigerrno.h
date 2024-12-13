@@ -48,6 +48,7 @@
 # define PINK "\033]11;rgb:aaaa/5555/9999\007"
 # define BLACK "\033]11;rgb:0000/0000/0000\007"
 
+extern char	**environ;
 extern int	g_signum;
 
 enum e_color
