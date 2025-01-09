@@ -20,9 +20,7 @@ void	wait_for_subprocesses(t_sh *sh, int *pid, int options)
 	int	status;
 	int	signal_number;
 
-	set_signal_handling(SIGINT, SIG_IGN);
 	status = get_status_of_last_child(pid, options);
-	set_signal_handling(SIGINT, signal_handler);
 	if (sh->ex->pl.exit_code || !status)
 		return ;
 	else if (WIFEXITED(status))

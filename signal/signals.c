@@ -17,7 +17,7 @@ int	set_signals(int reset)
 		return (set_signal_handling(SIGQUIT, SIG_DFL)
 			&& set_signal_handling(SIGINT, SIG_DFL));
 	return (set_signal_handling(SIGQUIT, SIG_IGN)
-		&& set_signal_handling(SIGINT, signal_handler));
+		&& set_signal_handling(SIGINT, SIG_IGN));
 }
 
 int	set_signal_handling(int signum, void (*handler)(int))

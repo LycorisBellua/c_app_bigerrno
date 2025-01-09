@@ -69,9 +69,9 @@ static void	run_cmd(t_sh *sh, t_pl *pl, char *cmd_fullpath)
 		else
 			reset_title_and_background_color();
 	}
-	set_signals(1);
 	exec_env = merge_lst(sh->local, sh->env);
 	exec_arr = convert_to_arr(exec_env);
+	set_signals(1);
 	execve(cmd_fullpath, pl->cmdl[pl->index], exec_arr);
 	pl->exit_code = errno;
 	pl->err_msg = compose_err_msg(0, pl->cmdl[pl->index][0], 0,

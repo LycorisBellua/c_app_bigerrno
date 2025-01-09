@@ -14,7 +14,9 @@ void	add_input_to_buffer(t_sh *sh, const char *prompt)
 	stdin_dup = dup(STDIN_FILENO);
 	if (stdin_dup < 0)
 		return ;
+	set_signal_handling(SIGINT, signal_handler);
 	input = readline(prompt);
+	set_signal_handling(SIGINT, SIG_IGN);
 	dup2(stdin_dup, STDIN_FILENO);
 	close(stdin_dup);
 	if (!input && !g_signum)
@@ -26,8 +28,7 @@ void	add_input_to_buffer(t_sh *sh, const char *prompt)
 		free_entire_array((void **)sh->rl.buf, free);
 		sh->rl.buf = 0;
 	}
-	if (input)
-		cut_input_into_lines(sh, input);
+	cut_input_into_lines(sh, input);
 	return ;
 }
 
@@ -35,6 +36,8 @@ static void	cut_input_into_lines(t_sh *sh, char *input)
 {
 	char	**lines;
 
+	if (!input)
+		return ;
 	input = place_split_points_for_input(input);
 	if (!input)
 		return ;
