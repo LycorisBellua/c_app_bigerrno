@@ -1,0 +1,75 @@
+/*
+	- `bash` + `kill -l` to list the signals.
+	- Call function `strsignal(signum)` in C to see the default flavor text.
+	- `kill -11 $$` to send the signal 11 to self. If you call Bash twice, and 
+	then run this command, it allows you to see which text Bash decides to 
+	print. It can be different from default.
+*/
+
+/*
+   For signum 0, negative, 32, 33, or anything above 64, for example 65:
+   `Unknown signal 65`
+
+   Signal 1: `Hangup`
+   Signal 2: ``
+   Signal 3: ``
+   Signal 4: `Illegal instruction (core dumped)`
+   Signal 5: `Trace/breakpoint trap (core dumped)`
+   Signal 6: `Aborted (core dumped)`
+   Signal 7: `Bus error (core dumped)`
+   Signal 8: `Floating point exception (core dumped)`
+   Signal 9: `Killed`
+   Signal 10: `User defined signal 1`
+   Signal 11: `Segmentation fault (core dumped)`
+   Signal 12: `User defined signal 2`
+   Signal 13: ``
+   Signal 14: `Alarm clock`
+   Signal 15: ``
+   Signal 16: `Stack fault`
+   Signal 17: ``
+   Signal 18: ``
+   Signal 19: `[1]+  Stopped                 bash`
+   Signal 20: ``
+   Signal 21: ``
+   Signal 22: ``
+   Signal 23: ``
+   Signal 24: `CPU time limit exceeded (core dumped)`
+   Signal 25: `File size limit exceeded (core dumped)`
+   Signal 26: `Virtual timer expired`
+   Signal 27: `Profiling timer expired`
+   Signal 28: ``
+   Signal 29: `I/O possible`
+   Signal 30: `Power failure`
+   Signal 31: `Bad system call (core dumped)`
+   Signal 34: `Real-time signal 0`
+   Signal 35: `Real-time signal 1`
+   Signal 36: `Real-time signal 2`
+   Signal 37: `Real-time signal 3`
+   Signal 38: `Real-time signal 4`
+   Signal 39: `Real-time signal 5`
+   Signal 40: `Real-time signal 6`
+   Signal 41: `Real-time signal 7`
+   Signal 42: `Real-time signal 8`
+   Signal 43: `Real-time signal 9`
+   Signal 44: `Real-time signal 10`
+   Signal 45: `Real-time signal 11`
+   Signal 46: `Real-time signal 12`
+   Signal 47: `Real-time signal 13`
+   Signal 48: `Real-time signal 14`
+   Signal 49: `Real-time signal 15`
+   Signal 50: `Real-time signal 16`
+   Signal 51: `Real-time signal 17`
+   Signal 52: `Real-time signal 18`
+   Signal 53: `Real-time signal 19`
+   Signal 54: `Real-time signal 20`
+   Signal 55: `Real-time signal 21`
+   Signal 56: `Real-time signal 22`
+   Signal 57: `Real-time signal 23`
+   Signal 58: `Real-time signal 24`
+   Signal 59: `Real-time signal 25`
+   Signal 60: `Real-time signal 26`
+   Signal 61: `Real-time signal 27`
+   Signal 62: `Real-time signal 28`
+   Signal 63: `Real-time signal 29`
+   Signal 64: `Real-time signal 30`
+*/
