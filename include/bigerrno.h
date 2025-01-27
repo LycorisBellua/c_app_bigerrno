@@ -186,7 +186,6 @@ void	destroy_all_ex(t_sh *sh);
 int		**open_pipes(t_pl *pl);
 void	close_pipes(int **pipes, int len);
 void	close_unused_pipes(int index, int **pipes, int pipe_len);
-int		set_fd_src_from_files(t_pl *pl, int catch_err);
 int		redirect_io(t_pl *pl);
 int		restore_io(t_pl *pl);
 int		resolve_command(t_pl *pl, char *cmd_name, char **cmd_fullpath);

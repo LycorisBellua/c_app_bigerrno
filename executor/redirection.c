@@ -1,31 +1,52 @@
 #include "bigerrno.h"
 
-static int	perform_redirections(t_pl *pl);
-static int	redirect_src(t_pl *pl, int fd_dup[2], int io);
+static int	update_fd_src_with_files(t_pl *pl);
+static void	catch_file_opening_error(t_pl *pl, size_t i);
+
+/*
+	TODO
+	----------------------------------------------------------------------------
+
+	SIGNALS
+	- Check the flavor text with a command such as cat. It's a handwritten 
+	program which sends a signal to itself. Indeed, there's an issue with 
+	SIGQUIT for example. It definitely prints something, and yet my research 
+	led me to believe it doesn't.
+	- Add flavor text for all signals.
+	- Consider handling all signals in the shell itself (external commands are 
+	already handled).
+
+	PARSING
+	- Add a label to tokens for a simpler parsing. You'd be able to remove the 
+	parentheses hack.
+*/
 
 int	redirect_io(t_pl *pl)
 {
-	int	catch_err;
-
-	catch_err = 1;
 	pl->fd_std[0] = dup(STDIN_FILENO);
 	pl->fd_std[1] = dup(STDOUT_FILENO);
-	if (!set_fd_src_from_files(pl, catch_err))
-		catch_err = 0;
-	if (pl->fd_src[0] < 0 && pl->index > 0)
+	pl->fd_src[0] = STDIN_FILENO;
+	pl->fd_src[1] = STDOUT_FILENO;
+	if (pl->index > 0)
 		pl->fd_src[0] = pl->fd_pipe[pl->index - 1][0];
-	else if (pl->index > 0)
-		close(pl->fd_pipe[pl->index - 1][0]);
-	if (pl->fd_src[1] < 0 && pl->index == pl->len - 1 && pl->circular)
-		pl->fd_src[1] = pl->fd_circ[1];
-	else if (pl->fd_src[1] < 0 && pl->index < pl->len - 1)
+	if (pl->index < pl->len - 1)
 		pl->fd_src[1] = pl->fd_pipe[pl->index][1];
-	else if (pl->index < pl->len - 1)
-		close(pl->fd_pipe[pl->index][1]);
-	if (!catch_err)
+	else if (pl->index == pl->len - 1 && pl->circular)
+		pl->fd_src[1] = pl->fd_circ[1];
+	if (!update_fd_src_with_files(pl))
 		return (0);
-	if (!perform_redirections(pl))
-		return (0);
+	if (pl->fd_src[0] != STDIN_FILENO)
+	{
+		dup2(pl->fd_src[0], STDIN_FILENO);
+		close(pl->fd_src[0]);
+		pl->fd_src[0] = -1;
+	}
+	if (pl->fd_src[1] != STDOUT_FILENO)
+	{
+		dup2(pl->fd_src[1], STDOUT_FILENO);
+		close(pl->fd_src[1]);
+		pl->fd_src[1] = -1;
+	}
 	return (1);
 }
 
@@ -57,40 +78,38 @@ int	restore_io(t_pl *pl)
 	return (pl->exit_code);
 }
 
-static int	perform_redirections(t_pl *pl)
+static int	update_fd_src_with_files(t_pl *pl)
 {
-	int	fd_dup[2];
-	int	err_codes[2];
+	size_t	i;
+	int		io;
 
-	err_codes[0] = redirect_src(pl, fd_dup, 0);
-	err_codes[1] = redirect_src(pl, fd_dup, 1);
-	if (!err_codes[0] && !err_codes[1])
+	if (!pl->file || !pl->file[pl->index])
 		return (1);
-	else if (err_codes[0])
-		pl->exit_code = err_codes[0];
-	else if (err_codes[1])
-		pl->exit_code = err_codes[1];
-	close(fd_dup[0]);
-	close(fd_dup[1]);
-	return (0);
+	i = 0;
+	while (pl->file[pl->index][i].filename)
+	{
+		io = pl->file[pl->index][i].io;
+		if (pl->fd_src[io] > STDERR_FILENO)
+			close(pl->fd_src[io]);
+		pl->fd_src[io] = open(pl->file[pl->index][i].filename,
+				pl->file[pl->index][i].flags, 0644);
+		if (pl->fd_src[io] < 0)
+		{
+			catch_file_opening_error(pl, i);
+			return (0);
+		}
+		++i;
+	}
+	return (1);
 }
 
-static int	redirect_src(t_pl *pl, int fd_dup[2], int io)
+static void	catch_file_opening_error(t_pl *pl, size_t i)
 {
-	int	code;
-	int	new_fd;
-
-	code = 0;
-	if (pl->fd_src[io] > 0)
-	{
-		new_fd = STDIN_FILENO;
-		if (io == 1)
-			new_fd = STDOUT_FILENO;
-		fd_dup[io] = dup2(pl->fd_src[io], new_fd);
-		if (fd_dup[io] < 0)
-			code = errno;
-		close(pl->fd_src[io]);
-		pl->fd_src[io] = -1;
-	}
-	return (code);
+	pl->exit_code = errno;
+	pl->err_msg = compose_err_msg(SHELL, 0, pl->file[pl->index][i].filename,
+			strerror(pl->exit_code));
+	if (pl->exit_code == ENOENT || pl->exit_code == EACCES
+		|| pl->exit_code == EISDIR)
+		pl->exit_code = EPERM;
+	return ;
 }
