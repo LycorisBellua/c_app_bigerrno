@@ -33,6 +33,9 @@ It is customary to name one's shell, and we chose bigerrno. It is a pun mixing t
 **Wildcard**
 - expand asterisk wildcards with any path given, not just the current directory (still no subdirectory)
 
+**Signals**
+- output the correct flavor text when an external command terminates from a signal
+
 **Aesthetic**
 - prompt: identical to bash `user@host:path$ ` even with an empty environment
 - colors: Ubuntu GNOME themed text and background

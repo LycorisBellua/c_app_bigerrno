@@ -7,12 +7,14 @@ static void	catch_file_opening_error(t_pl *pl, size_t i);
 	TODO
 	----------------------------------------------------------------------------
 
+	WILDCARD
+	$ echo test*
+	test.c test*
+	$ rm test*
+	rm: cannot remove 'test*': No such file or directory
+	-> It should be `test test.c` and then work for both in the second command
+
 	SIGNALS
-	- Check the flavor text with a command such as cat. It's a handwritten 
-	program which sends a signal to itself. Indeed, there's an issue with 
-	SIGQUIT for example. It definitely prints something, and yet my research 
-	led me to believe it doesn't.
-	- Add flavor text for all signals.
 	- Consider handling all signals in the shell itself (external commands are 
 	already handled).
 

@@ -1,7 +1,5 @@
 #include "bigerrno.h"
 
-static int	get_status_of_last_child(int *pid, int options);
-
 /*
 	The subprocess either exited normally (`exit` or returning from `main`) or 
 	due to a signal. Exit codes are in a [0-255] range, with the [0-127] range 
@@ -15,41 +13,30 @@ static int	get_status_of_last_child(int *pid, int options);
 	About the core dump, it should be generated on SIGQUIT, but I'm not certain 
 	it happens and print the flavor text anyway.
 */
+
 void	wait_for_subprocesses(t_sh *sh, int *pid, int options)
 {
-	int	status;
-	int	signal_number;
+	size_t	i;
+	int		status;
+	int		signum;
 
-	status = get_status_of_last_child(pid, options);
+	i = 0;
+	status = 0;
+	while (pid[i])
+	{
+		while (waitpid(pid[i], &status, options) < 0 && errno == EINTR)
+			errno = 0;
+		++i;
+	}
 	if (sh->ex->pl.exit_code || !status)
 		return ;
 	else if (WIFEXITED(status))
 		sh->ex->pl.exit_code = WEXITSTATUS(status);
 	else if (WIFSIGNALED(status))
 	{
-		signal_number = WTERMSIG(status);
-		sh->ex->pl.exit_code = 128 + signal_number;
-		if (signal_number == SIGQUIT)
-			ft_putstr_fd("Quit (core dumped)", STDERR_FILENO);
-		ft_putstr_fd("\n", STDERR_FILENO);
+		signum = WTERMSIG(status);
+		sh->ex->pl.exit_code = 128 + signum;
+		ft_putstr_fd(get_sig_flavor_text(signum), STDERR_FILENO);
 	}
 	return ;
-}
-
-static int	get_status_of_last_child(int *pid, int options)
-{
-	size_t	i;
-	int		err;
-	int		status;
-
-	i = 0;
-	status = 0;
-	while (pid[i])
-	{
-		err = waitpid(pid[i], &status, options);
-		while (err < 0 && errno == EINTR)
-			err = waitpid(pid[i], &status, 0);
-		++i;
-	}
-	return (status);
 }

@@ -175,6 +175,7 @@ void	process_unicode_value(int is_echo_e, char **s, size_t *i);
 int		set_signals(int reset);
 int		set_signal_handling(int signum, void (*handler)(int));
 void	signal_handler(int signum);
+char	*get_sig_flavor_text(int signum);
 
 /* Executor ----------------------------------------------------------------- */
 
