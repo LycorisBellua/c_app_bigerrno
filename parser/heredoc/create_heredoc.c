@@ -12,15 +12,15 @@ int	create_heredoc(t_sh *sh, size_t hd_index, size_t *index,
 	size_t	curr_line;
 	size_t	last_line;
 
-	insert_array_element((void ***)&sh->rl.hd,
-		(void *)compose_heredoc_name(hd_index), hd_index);
+	insert_array_element((void ***)&sh->rl.hd, (void *)compose_heredoc_name(),
+		hd_index);
 	if (!sh->rl.hd[hd_index])
 		return (0);
 	curr_line = *index;
 	if (!fetch_heredoc(sh, index, delimiter))
 		return (0);
 	last_line = *index;
-	fd = open(sh->rl.hd[hd_index], O_CREAT | O_WRONLY | O_TRUNC, 0777);
+	fd = open(sh->rl.hd[hd_index], O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (fd < 0)
 		return (0);
 	while (++curr_line < last_line

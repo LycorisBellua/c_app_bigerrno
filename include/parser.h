@@ -18,7 +18,7 @@ int		is_char_within_quotes(const char *s, const char *p_char);
 char	*get_prefix_for_backslashes(t_sh *sh, size_t i, int *is_input_needed);
 int		create_heredoc(t_sh *sh, size_t hd_index, size_t *index,
 			const char *delimiter);
-char	*compose_heredoc_name(size_t index);
+char	*compose_heredoc_name(void);
 void	heredoc_ctrl_d(size_t *index, const char *delimiter);
 void	unlink_heredocs(t_sh *sh);
 int		check_right_operand_and_parentheses(t_sh *sh, char **prefix);
