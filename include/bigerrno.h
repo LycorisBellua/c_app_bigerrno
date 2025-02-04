@@ -189,7 +189,7 @@ void	close_pipes(int **pipes, int len);
 void	close_unused_pipes(int index, int **pipes, int pipe_len);
 int		redirect_io(t_pl *pl);
 int		restore_io(t_pl *pl);
-int		resolve_command(t_pl *pl, char *cmd_name, char **cmd_fullpath);
+int		resolve_command(t_pl *pl, char *cmd_path, char **cmd_fullpath);
 void	wait_for_subprocesses(t_sh *sh, int *pid, int options);
 
 /* Built-ins ---------------------------------------------------------------- */
