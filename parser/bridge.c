@@ -11,7 +11,8 @@ void	interpret_and_process_cmd(t_sh *sh)
 	{
 		if (sh->ex->logop == LOGOP_COLON)
 			process_cmd(sh);
-		else if (sh->ex->logop == LOGOP_OR && sh->exit_code)
+		else if (sh->ex->logop == LOGOP_OR && sh->exit_code
+			&& sh->exit_code != 127 + SIGQUIT)
 			process_cmd(sh);
 		else if (sh->ex->logop == LOGOP_AND && !sh->exit_code)
 			process_cmd(sh);
