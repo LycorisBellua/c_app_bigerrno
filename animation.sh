@@ -1,4 +1,4 @@
-# Co-written with prompt CLAUDE
+# Lucie-Kin: Co-written with prompt CLAUDE
 
 #!/bin/bash
 
@@ -10,7 +10,7 @@ center_col=$((cols / 2))
 # Calculate maximum radius based on screen size, double the width
 max_radius_height=$((rows / 2 - 2))
 max_radius_width=$((cols / 2 - 2))
-word="BIGGERNO"
+word="BIGERRNO"
 colors=("34" "35" "31" "33" "32" "36")
 branches=6
 spiral_size=48
