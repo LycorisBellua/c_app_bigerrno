@@ -1,15 +1,37 @@
 #include "bigerrno.h"
 
+static int		subprocess_body(t_sh *sh, t_pl *pl);
 static int		execute_subshell(t_sh *sh, t_pl *pl);
 static void		run_cmd(t_sh *sh, t_pl *pl, char *cmd_fullpath);
 static t_env	*merge_lst(t_env *lst1, t_env *lst2);
 
-int	execute_subprocess(t_sh *sh, t_pl *pl)
+void	execute_subprocess(t_sh *sh, int fd_pipe[2], int fd_input, int *pid)
+{
+	int	child_exit_code;
+
+	free(pid);
+	++sh->subshell;
+	update_shlvl(&sh->env, 1);
+	dup2(fd_input, STDIN_FILENO);
+	close(fd_input);
+	if (sh->ex->pl.index < sh->ex->pl.len - 1)
+	{
+		close(fd_pipe[0]);
+		dup2(fd_pipe[1], STDOUT_FILENO);
+		close(fd_pipe[1]);
+	}
+	child_exit_code = subprocess_body(sh, &sh->ex->pl);
+	destroy_all_ex(sh);
+	free_shell(sh);
+	exit(child_exit_code);
+	return ;
+}
+
+static int	subprocess_body(t_sh *sh, t_pl *pl)
 {
 	char	*cmd_fullpath;
 
 	cmd_fullpath = 0;
-	close_unused_pipes(pl->index, pl->fd_pipe, pl->fd_pipe_len);
 	if (!redirect_io(pl))
 		return (restore_io(pl));
 	if (isbuiltin(pl->cmdl[pl->index]))
@@ -107,26 +129,4 @@ static t_env	*merge_lst(t_env *lst1, t_env *lst2)
 		lst2 = lst2->next;
 	}
 	return (merge);
-}
-
-char	**convert_to_arr(t_env *env)
-{
-	char	**env_arr;
-	char	*tmp;
-	int		size;
-	int		i;
-
-	if (!env)
-		return (0);
-	size = lst_size(&env);
-	env_arr = ft_calloc(size + 1, sizeof(char *));
-	i = 0;
-	while (env)
-	{
-		tmp = ft_strjoin(env->key, "=");
-		env_arr[i++] = ft_strjoin(tmp, env->value);
-		free(tmp);
-		env = env->next;
-	}
-	return (env_arr);
 }

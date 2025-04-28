@@ -81,8 +81,6 @@ typedef struct s_pl
 	char			**path;
 	char			***cmdl;
 	t_file			**file;
-	int				fd_pipe_len;
-	int				**fd_pipe;
 	int				fd_std[2];
 	int				fd_src[2];
 	int				fd_circ[2];
@@ -180,13 +178,10 @@ char	*get_sig_flavor_text(int signum);
 /* Executor ----------------------------------------------------------------- */
 
 int		execute_pipeline(t_sh *sh);
-int		execute_subprocess(t_sh *sh, t_pl *pl);
+void	execute_subprocess(t_sh *sh, int fd_pipe[2], int fd_input, int *pid);
 int		pop_head_ex(t_sh *sh);
 void	destroy_all_ex(t_sh *sh);
 
-int		**open_pipes(t_pl *pl);
-void	close_pipes(int **pipes, int len);
-void	close_unused_pipes(int index, int **pipes, int pipe_len);
 int		redirect_io(t_pl *pl);
 int		restore_io(t_pl *pl);
 int		resolve_command(t_pl *pl, char *cmd_path, char **cmd_fullpath);

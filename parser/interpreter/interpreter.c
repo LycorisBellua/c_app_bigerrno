@@ -41,7 +41,6 @@ int	pop_head_ex(t_sh *sh)
 	exit_code = sh->ex->pl.exit_code;
 	next = sh->ex->next;
 	free_entire_array((void **)sh->ex->pl.path, free);
-	free_entire_array((void **)sh->ex->pl.fd_pipe, free);
 	destroy_pl_cmdl(sh->ex->pl.cmdl);
 	destroy_pl_file(sh->ex->pl.file);
 	free(sh->ex);
@@ -62,7 +61,6 @@ static void	process_current_ex_pl(t_sh *sh, t_ex *ex)
 {
 	ex->pl.len = get_pl_len(sh->rl.tokens);
 	ex->pl.path = get_pl_path(sh);
-	ex->pl.fd_pipe_len = ex->pl.len - 1;
 	replace_delimiters_by_filenames(sh);
 	ex->pl.cmdl = get_pl_cmdl(sh->rl.tokens, ex->pl.len);
 	ex->pl.file = get_pl_file(&ex->pl);

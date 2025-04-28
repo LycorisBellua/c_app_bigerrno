@@ -29,11 +29,7 @@ int	redirect_io(t_pl *pl)
 	pl->fd_std[1] = dup(STDOUT_FILENO);
 	pl->fd_src[0] = STDIN_FILENO;
 	pl->fd_src[1] = STDOUT_FILENO;
-	if (pl->index > 0)
-		pl->fd_src[0] = pl->fd_pipe[pl->index - 1][0];
-	if (pl->index < pl->len - 1)
-		pl->fd_src[1] = pl->fd_pipe[pl->index][1];
-	else if (pl->index == pl->len - 1 && pl->circular)
+	if (pl->index == pl->len - 1 && pl->circular)
 		pl->fd_src[1] = pl->fd_circ[1];
 	if (!update_fd_src_with_files(pl))
 		return (0);
@@ -91,8 +87,7 @@ static int	update_fd_src_with_files(t_pl *pl)
 	while (pl->file[pl->index][i].filename)
 	{
 		io = pl->file[pl->index][i].io;
-		if (pl->fd_src[io] > STDERR_FILENO)
-			close(pl->fd_src[io]);
+		close(pl->fd_src[io]);
 		pl->fd_src[io] = open(pl->file[pl->index][i].filename,
 				pl->file[pl->index][i].flags, 0644);
 		if (pl->fd_src[io] < 0)

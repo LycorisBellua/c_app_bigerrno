@@ -26,8 +26,8 @@ void	update_prompt(t_sh *sh)
 		return ;
 	}
 	free(sh->rl.prompt);
-	sh->rl.prompt = get_stylized_prompt(sh->rl.user, str_path, \
-	&sh->prompt_color1, &sh->prompt_color2);
+	sh->rl.prompt = get_stylized_prompt(sh->rl.user, str_path,
+			&sh->prompt_color1, &sh->prompt_color2);
 	free(str_path);
 	return ;
 }
