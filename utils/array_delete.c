@@ -71,12 +71,14 @@ void	free_entire_array(void **array, void (*free_element)(void *))
 
 	if (!array)
 		return ;
-	i = 0;
-	while (array[i])
+	if (free_element)
 	{
-		if (free_element)
+		i = 0;
+		while (array[i])
+		{
 			free_element(array[i]);
-		++i;
+			++i;
+		}
 	}
 	free(array);
 	return ;
