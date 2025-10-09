@@ -1,6 +1,6 @@
 # Bigerrno
 
-42 School project with [@Lucie-Kin](https://github.com/Lucie-Kin) and [@LycorisDev](https://github.com/LycorisDev) based on Bash 3.  
+42 School project with [@Lucie-Kin](https://github.com/Lucie-Kin) and [@LycorisBellua](https://github.com/LycorisBellua) based on Bash 3.  
 It is customary to name one's shell, and we chose bigerrno. It is a pun mixing the French word *bigorneau*, which is a seashell, and the idea of a big mistake with "big" and "errno", aka "error number".  
 
 ---
