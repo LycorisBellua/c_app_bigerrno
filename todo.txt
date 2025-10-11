@@ -1,3 +1,16 @@
+TOKEN TAGS
+
+- Add token tags.
+- Fix the env var expansion:
+		export LALA="ls | sort -r"
+		echo $LALA
+		$LALA
+	-> Each new token is a word. For example, the pipe is not a pipe but a mere 
+	string.
+	-> parser/expansion/expansion_env.c
+
+--------------------------------------------------------------------------------
+
 FIX THE PARSING
 
 export A=luciekin && echo $A'chauffour'
