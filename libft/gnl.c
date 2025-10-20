@@ -11,8 +11,8 @@ static void	shift_buffer(char *buffer, char *newline);
 
 /*
 	FEATURES
-	- GNL returns a dynamically allocated line read from an fd. A line either 
-	ends with '\n' (included) or EOF.
+	- GNL or "Get Next Line" returns a dynamically allocated line read from an 
+	fd. A line either ends with '\n' (included) or EOF.
 	- If the function is called after EOF or if an error occurred, NULL is 
 	returned instead.
 	- GNL may retain some content that has been read but was after a newline. 
@@ -29,7 +29,7 @@ static void	shift_buffer(char *buffer, char *newline);
 	content may be funky.
 */
 
-char	*get_next_line(int fd)
+char	*gnl(int fd)
 {
 	static char	buffer[GNL_BUF_SIZE + 1];
 	static int	previous_fd;
@@ -83,7 +83,7 @@ static int	search_newline(char *buffer, int fd, char **line, char **newline)
 }
 
 /* Modified ft_strjoin */
-char	*add_to_line(char *line, char *added, int free_added)
+static char	*add_to_line(char *line, char *added, int free_added)
 {
 	size_t	len;
 	char	*joined;
@@ -113,7 +113,7 @@ char	*add_to_line(char *line, char *added, int free_added)
 }
 
 /* Modified ft_strdup */
-char	*get_line(char *src, char *newline_in_src)
+static char	*get_line(char *src, char *newline_in_src)
 {
 	char	*dup;
 	size_t	len;

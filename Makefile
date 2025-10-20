@@ -1,37 +1,33 @@
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -Iinclude -g# -fsanitize=address
 LDFLAGS = -Llibft -lft -lncurses -lreadline -lhistory
-RM = rm -f
-
 NAME = bigerrno
-SRC = main.c $(wildcard */*.c) $(wildcard */*/*.c)
-OBJ = $(SRC:.c=.o)
-
+DIR_OBJ = build
+SRC = $(shell find src -name '*.c')
+OBJ = $(patsubst %.c, $(DIR_OBJ)/%.o, $(SRC))
 LIBFT_DIR = libft
 LIBFT_BIN = $(LIBFT_DIR)/libft.a
 
 all: $(LIBFT_BIN) $(NAME)
 
 $(LIBFT_BIN):
-	@$(MAKE) -C $(LIBFT_DIR) --silent
+	$(MAKE) -C $(LIBFT_DIR)
 
 $(NAME): $(OBJ)
-	@norminette | grep -v "OK" | grep -v "Error\!" | grep -v "INVALID_HEADER"
-	@$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
+	@norminette | grep -v "Setting locale" | grep -v "OK" | grep -v "Error\!" \
+		| grep -v "INVALID_HEADER"
+	$(CC) $(CFLAGS) $^ -o $@ $(LDFLAGS)
 
-%.o: %.c
-	@$(CC) $(CFLAGS) -o $@ -c $<
-
-animation:
-	@bash animation.sh
+$(DIR_OBJ)/%.o: %.c
+	@mkdir -p $(@D)
+	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	@$(RM) $(OBJ)
-	@$(MAKE) -C $(LIBFT_DIR) clean --no-print-directory
+	rm -rf $(DIR_OBJ)
 
 fclean: clean
-	@$(RM) $(NAME) $(LIBFT_BIN)
+	rm -rf $(NAME)
 
-re: fclean animation all
+re: fclean all
 
-.PHONY: all clean fclean re animation
+.PHONY: all clean fclean re
