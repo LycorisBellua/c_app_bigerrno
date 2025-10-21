@@ -2,10 +2,8 @@
 
 int	bigerrno_lulu(t_sh *sh)
 {
-	++sh->color;
-	if (sh->color >= E_COLOR_LIMIT)
-		sh->color = 0;
-	set_prompt_color(sh, sh->color);
-	set_background_color(sh->color);
+	++sh->color_scheme;
+	if (sh->color_scheme >= E_COLOR_LIMIT)
+		sh->color_scheme = 0;
 	return (0);
 }

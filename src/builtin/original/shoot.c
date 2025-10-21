@@ -13,9 +13,7 @@ int	bigerrno_shoot(t_sh *sh, char **arg)
 		ft_putstr_fd("Don't shoot anything!\n", STDERR_FILENO);
 	else
 	{
-		sh->color = E_COLOR_PINK;
-		set_prompt_color(sh, sh->color);
-		update_prompt(sh);
+		sh->color_scheme = E_COLOR_PINK;
 		ft_putstr_fd("\e[35m  bigerrno$ \e[0m", STDOUT_FILENO);
 		get_terminal_size(rows_cols);
 		animate_shoot(rows_cols[1]);

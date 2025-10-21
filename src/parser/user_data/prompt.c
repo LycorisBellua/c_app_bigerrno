@@ -1,37 +1,10 @@
 #include "parser.h"
 
-static char	*get_prompt_user(t_sh *sh);
 static char	*get_prompt_path(t_sh *sh);
 static char	*get_stylized_prompt(const char *user, const char *path,
 				const char *col1, const char *col2);
 
-void	init_prompt(t_sh *sh)
-{
-	set_prompt_color(sh, E_COLOR_GNOME);
-	sh->rl.user = get_prompt_user(sh);
-	sh->rl.prompt = 0;
-	return ;
-}
-
-void	update_prompt(t_sh *sh)
-{
-	char	*str_path;
-
-	str_path = get_prompt_path(sh);
-	if (!sh->rl.user || !str_path)
-	{
-		free(str_path);
-		sh->rl.prompt = ft_strdup("$ ");
-		return ;
-	}
-	free(sh->rl.prompt);
-	sh->rl.prompt = get_stylized_prompt(sh->rl.user, str_path,
-			sh->prompt_color1, sh->prompt_color2);
-	free(str_path);
-	return ;
-}
-
-static char	*get_prompt_user(t_sh *sh)
+char	*get_prompt_user(t_sh *sh)
 {
 	char	*tmp1;
 	char	*tmp2;
@@ -46,6 +19,26 @@ static char	*get_prompt_user(t_sh *sh)
 		tmp2 = ft_strjoin(tmp1, "host");
 	free(tmp1);
 	return (tmp2);
+}
+
+void	update_prompt(t_sh *sh)
+{
+	char	*str_path;
+
+	set_prompt_color(sh, sh->color_scheme);
+	set_background_color(sh->color_scheme);
+	str_path = get_prompt_path(sh);
+	if (!sh->rl.user || !str_path)
+	{
+		free(str_path);
+		sh->rl.prompt = ft_strdup("$ ");
+		return ;
+	}
+	free(sh->rl.prompt);
+	sh->rl.prompt = get_stylized_prompt(sh->rl.user, str_path,
+			sh->prompt_color1, sh->prompt_color2);
+	free(str_path);
+	return ;
 }
 
 static char	*get_prompt_path(t_sh *sh)

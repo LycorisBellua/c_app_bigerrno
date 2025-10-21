@@ -3,7 +3,6 @@
 
 # include "bigerrno.h"
 
-void	init_prompt(t_sh *sh);
 void	add_input_to_buffer(t_sh *sh, const char *prompt);
 int		extract_first_command_line(t_sh *sh);
 char	**get_delimiters(const char *s);

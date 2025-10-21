@@ -14,9 +14,8 @@ int	main(int argc, char **argv)
 				compose_err_msg(SHELL, 0, 0, "Too many arguments")));
 	if (!set_signals(0))
 		return (1);
-	ft_bzero(&sh, sizeof(t_sh));
 	handle_default_background_color(0);
-	set_background_color(E_COLOR_GNOME);
+	ft_bzero(&sh, sizeof(t_sh));
 	sh.first_arg = argv[0];
 	sh.valid_term = is_term_var_valid(&sh);
 	sh.pid = ft_itoa(get_pid(&sh, sh.first_arg));
@@ -24,7 +23,8 @@ int	main(int argc, char **argv)
 	sh.host = circular_pipeline(&sh, "/bin/uname -n | /bin/cut -d. -f1");
 	sh.home = get_home_path(&sh, sh.user);
 	sh.shells = get_shells(&sh);
-	sh.color = E_COLOR_GNOME;
+	sh.color_scheme = E_COLOR_GNOME;
+	sh.rl.user = get_prompt_user(&sh);
 	init_env(&sh);
 	run_shell(&sh);
 	free_shell(&sh);

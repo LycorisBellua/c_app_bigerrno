@@ -1,9 +1,8 @@
 #include "bigerrno.h"
 
 #define MATRIX "clear; echo -e \"\\e[48;5;16m\"; while :; \
-do echo $LINES $COLUMNS $(( $RANDOM % $COLUMNS)) \
-$(( $RANDOM % 73 )); sleep 0.05; done \
-| awk '{ letters=\"abcdefghijklmnopqrstuvwxyz\
+do echo $(tput lines) $(tput cols) $(( $RANDOM % $(tput cols) )) \
+$(( $RANDOM % 73 )); sleep 0.05; done | awk '{ letters=\"abcdefghijklmnopqrstuvwxyz\
 ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*() \"; \
 c=$4; letter=substr(letters,c,1); a[$3]=0; for (x in a) { o=a[x]; a[x]=a[x]+1; \
 printf \"\\033[%s;%sH\\033[1;32m%s\", o, x, letter; \
@@ -27,7 +26,7 @@ int	bigerrno_matrix(t_sh *sh, char **arg)
 	pid = fork();
 	if (pid < 0)
 		return (1);
-	if (!pid)
+	else if (!pid)
 		run_script(sh);
 	status = 0;
 	waitpid(pid, &status, 0);
@@ -43,7 +42,7 @@ static void	run_script(t_sh *sh)
 	args[1] = "-c";
 	args[2] = MATRIX;
 	args[3] = 0;
-	execve("/bin/bash", args, convert_to_arr(sh->env));
+	execve(args[0], args, convert_to_arr(sh->env));
 	ft_putstr_fd("bigerrno: execve matrix: fail", STDERR_FILENO);
 	exit(1);
 	return ;

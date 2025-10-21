@@ -114,7 +114,7 @@ typedef struct s_sh
 	t_env		*local;
 	t_rl		rl;
 	t_ex		*ex;
-	t_color		color;
+	t_color		color_scheme;
 	const char	*prompt_color1;
 	const char	*prompt_color2;
 	int			pid_disco;
@@ -174,6 +174,7 @@ int		bigerrno_set(t_env *hidden, char **arg);
 int		bigerrno_unset(t_sh *sh, char **arg);
 
 int		bigerrno_disco(t_sh *sh);
+int		bigerrno_disco_stop(t_sh *sh);
 int		bigerrno_lulu(t_sh *sh);
 int		bigerrno_matrix(t_sh *sh, char **arg);
 int		bigerrno_shoot(t_sh *sh, char **arg);
@@ -226,6 +227,7 @@ void	extract_local_update(char ***cmd, t_env **local);
 int		firstocc(char *s, char c);
 int		continued_occurence(char *s, char c);
 char	**convert_to_arr(t_env *env);
+char	*get_prompt_user(t_sh *sh);
 void	update_prompt(t_sh *sh);
 char	*extract_key(int separator, char *key_value);
 

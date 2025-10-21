@@ -5,11 +5,9 @@ static void	process_current_line(t_sh *sh);
 void	run_shell(t_sh *sh)
 {
 	sh->keep_running = 1;
-	init_prompt(sh);
 	while (sh->subshell == 0 && sh->keep_running)
 	{
 		update_prompt(sh);
-		set_background_color(sh->color);
 		add_input_to_buffer(sh, sh->rl.prompt);
 		while (sh->keep_running && sh->rl.buf && sh->rl.buf[0])
 			process_current_line(sh);
@@ -41,9 +39,8 @@ void	free_shell(t_sh *sh)
 	free_entire_array((void **)sh->rl.arr, free_rl_arr_element);
 	free_entire_array((void **)sh->rl.tokens, free);
 	free_entire_array((void **)sh->rl.hd, free);
-	if (!sh->keep_running && sh->pid_disco)
-		kill(sh->pid_disco, SIGINT);
-	sh->pid_disco = 0;
+	if (!sh->keep_running)
+		bigerrno_disco_stop(sh);
 	return ;
 }
 
