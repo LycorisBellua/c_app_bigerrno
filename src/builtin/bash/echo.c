@@ -3,7 +3,7 @@
 static int	echo_option(char **arg, int *skip_newline, int *with_backlash,
 				int *count);
 
-int	bigerrno_echo(char **arg)
+int	builtin_echo(char **arg)
 {
 	int		to_be_echoed;
 	int		skip_nl;

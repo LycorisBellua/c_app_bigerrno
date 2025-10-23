@@ -40,7 +40,7 @@ void	free_shell(t_sh *sh)
 	free_entire_array((void **)sh->rl.tokens, free);
 	free_entire_array((void **)sh->rl.hd, free);
 	if (!sh->keep_running)
-		bigerrno_disco_stop(sh);
+		builtin_disco_stop(sh);
 	return ;
 }
 

@@ -25,7 +25,7 @@ static int	extract_exit_nbr(const char *arg, int *start, int *len, int *sign);
 	Exit code is ENOENT for any other error
 */
 
-int	bigerrno_exit(t_sh *sh, char **arg)
+int	builtin_exit(t_sh *sh, char **arg)
 {
 	sh->keep_running = 0;
 	if (sh->subshell == 0)

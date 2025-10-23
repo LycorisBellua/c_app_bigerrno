@@ -3,7 +3,7 @@
 static int	go_to_home(t_sh *sh, char **target_dir);
 static int	go_to_oldpwd(t_sh *sh, char **target_dir);
 
-int	bigerrno_cd(t_sh *sh, char **arg)
+int	builtin_cd(t_sh *sh, char **arg)
 {
 	int		code_err;
 	char	*target_dir;

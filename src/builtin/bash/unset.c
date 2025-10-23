@@ -2,7 +2,7 @@
 
 static void	node_clear(t_env *node);
 
-int	bigerrno_unset(t_sh *sh, char **arg)
+int	builtin_unset(t_sh *sh, char **arg)
 {
 	int		n;
 	t_env	*node;

@@ -1,6 +1,6 @@
 #include "bigerrno.h"
 
-int	bigerrno_lulu(t_sh *sh)
+int	builtin_lulu(t_sh *sh)
 {
 	++sh->color_scheme;
 	if (sh->color_scheme >= E_COLOR_LIMIT)

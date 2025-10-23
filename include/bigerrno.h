@@ -165,19 +165,19 @@ void	wait_for_subprocesses(t_sh *sh, int *pid, int options);
 int		is_builtin(char **cmd);
 int		execute_builtin(t_sh *sh);
 
-int		bigerrno_cd(t_sh *sh, char **arg);
-int		bigerrno_echo(char **arg);
-int		bigerrno_exit(t_sh *sh, char **arg);
-int		bigerrno_export(t_env **env, t_env **hidden, t_env **local, char **arg);
-int		bigerrno_pwd(t_sh *sh);
-int		bigerrno_set(t_env *hidden, char **arg);
-int		bigerrno_unset(t_sh *sh, char **arg);
+int		builtin_cd(t_sh *sh, char **arg);
+int		builtin_echo(char **arg);
+int		builtin_exit(t_sh *sh, char **arg);
+int		builtin_export(t_env **env, t_env **hidden, t_env **local, char **arg);
+int		builtin_pwd(t_sh *sh);
+int		builtin_set(t_env *hidden, char **arg);
+int		builtin_unset(t_sh *sh, char **arg);
 
-int		bigerrno_disco(t_sh *sh);
-int		bigerrno_disco_stop(t_sh *sh);
-int		bigerrno_lulu(t_sh *sh);
-int		bigerrno_matrix(t_sh *sh, char **arg);
-int		bigerrno_shoot(t_sh *sh, char **arg);
+int		builtin_disco(t_sh *sh);
+int		builtin_disco_stop(t_sh *sh);
+int		builtin_lulu(t_sh *sh);
+int		builtin_matrix(t_sh *sh, char **arg);
+int		builtin_shoot(t_sh *sh, char **arg);
 
 /* Utils -------------------------------------------------------------------- */
 

@@ -7,9 +7,9 @@
 
 	That might be something we can figure out with the background jobs feature.
 */
-int	bigerrno_disco(t_sh *sh)
+int	builtin_disco(t_sh *sh)
 {
-	if (bigerrno_disco_stop(sh) || sh->ex->pl.len > 1)
+	if (builtin_disco_stop(sh) || sh->ex->pl.len > 1)
 		return (sh->ex->pl.exit_code);
 	sh->pid_disco = fork();
 	if (!sh->pid_disco)
@@ -18,7 +18,7 @@ int	bigerrno_disco(t_sh *sh)
 		{
 			while ("DISCO YAY" && !g_signum)
 			{
-				bigerrno_lulu(sh);
+				builtin_lulu(sh);
 				set_background_color(sh->color_scheme);
 			}
 		}
@@ -29,7 +29,7 @@ int	bigerrno_disco(t_sh *sh)
 	return (sh->ex->pl.exit_code);
 }
 
-int	bigerrno_disco_stop(t_sh *sh)
+int	builtin_disco_stop(t_sh *sh)
 {
 	int	was_running;
 

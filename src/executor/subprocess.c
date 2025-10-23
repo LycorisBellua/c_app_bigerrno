@@ -85,8 +85,8 @@ static void	run_cmd(t_sh *sh, t_pl *pl, char *cmd_fullpath)
 	{
 		update_shlvl(&sh->env, 0);
 		p_slash = ft_strrchr(cmd_fullpath, '/');
-		if (!ft_strcmp(cmd_fullpath, "bigerrno")
-			|| (p_slash && !ft_strcmp(p_slash + 1, "bigerrno")))
+		if (!ft_strcmp(cmd_fullpath, SHELL)
+			|| (p_slash && !ft_strcmp(p_slash + 1, SHELL)))
 			handle_default_background_color(1);
 		else
 			reset_title_and_background_color();

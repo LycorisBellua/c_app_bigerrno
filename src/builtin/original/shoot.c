@@ -5,7 +5,7 @@ static void	execute_in_child(int pipefd[2]);
 static void	execute_in_parent(int pipefd[2], int *rows_cols);
 static void	animate_shoot(int cols);
 
-int	bigerrno_shoot(t_sh *sh, char **arg)
+int	builtin_shoot(t_sh *sh, char **arg)
 {
 	int	rows_cols[2];
 
@@ -14,7 +14,7 @@ int	bigerrno_shoot(t_sh *sh, char **arg)
 	else
 	{
 		sh->color_scheme = E_COLOR_PINK;
-		ft_putstr_fd("\e[35m  bigerrno$ \e[0m", STDOUT_FILENO);
+		ft_putstr_fd("\e[35m  "SHELL"$ \e[0m", STDOUT_FILENO);
 		get_terminal_size(rows_cols);
 		animate_shoot(rows_cols[1]);
 		ft_putstr_fd("\a", STDOUT_FILENO);

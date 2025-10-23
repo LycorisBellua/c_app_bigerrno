@@ -1,7 +1,7 @@
 #include "bigerrno.h"
 
 /* No option required */
-int	bigerrno_set(t_env *hidden, char **arg)
+int	builtin_set(t_env *hidden, char **arg)
 {
 	t_env	*sorted;
 	t_env	*tmp;

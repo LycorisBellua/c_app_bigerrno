@@ -37,7 +37,7 @@ $clear_row<=$rows; }}'"
 
 static void	run_script(t_sh *sh);
 
-int	bigerrno_matrix(t_sh *sh, char **arg)
+int	builtin_matrix(t_sh *sh, char **arg)
 {
 	pid_t	pid;
 	int		status;
@@ -69,7 +69,7 @@ static void	run_script(t_sh *sh)
 	args[2] = MATRIX;
 	args[3] = 0;
 	execve(args[0], args, convert_to_arr(sh->env));
-	ft_putstr_fd("bigerrno: execve matrix: fail", STDERR_FILENO);
+	ft_putstr_fd(SHELL": execve matrix: fail", STDERR_FILENO);
 	exit(1);
 	return ;
 }

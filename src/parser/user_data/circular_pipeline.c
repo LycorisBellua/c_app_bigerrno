@@ -92,5 +92,5 @@ char	*get_shells(t_sh *sh)
 	return (circular_pipeline(sh, "/bin/cat /etc/shells | /bin/grep -v # "
 			"| /bin/sed 's|.*/||' | /bin/sort "
 			"| /bin/sed '$!N; /^\\(.*\\)\\n\\1$/!P; D' | /bin/tr '\\n' ':' "
-			"| /bin/sed 's/$/bigerrno/'"));
+			"| /bin/sed 's/$/"SHELL"/'"));
 }

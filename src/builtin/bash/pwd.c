@@ -3,7 +3,7 @@
 static char	*get_cwd(t_sh *sh, const char *arg, int *code_err);
 static void	update_oldpwd(t_sh *sh, t_env *pwd);
 
-int	bigerrno_pwd(t_sh *sh)
+int	builtin_pwd(t_sh *sh)
 {
 	if (sh->pwd)
 		printf("%s\n", sh->pwd);
