@@ -1,3 +1,5 @@
+--------------------------------------------------------------------------------
+
 TOKEN TAGS
 
 - Add token tags.
@@ -37,11 +39,5 @@ THE "SHLVL" ENV VAR
 initialize it to 0.
 - Then, increment it when opening bigerrno.
 - In the child process, decrement it unless the command is a shell.
-
---------------------------------------------------------------------------------
-
-LULU
-
-- Stop Matrix with Ctrl-C. It's currently unstoppable.
 
 --------------------------------------------------------------------------------
