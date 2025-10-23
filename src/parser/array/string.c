@@ -46,32 +46,6 @@ char	*remove_str(const char *s, size_t i, size_t len_to_remove)
 	return (tmp3);
 }
 
-char	*concatenate_strings(char **arr, const char *separator)
-{
-	size_t	i;
-	char	*joined;
-	char	*tmp;
-
-	if (!arr || !arr[0])
-		return (0);
-	joined = ft_strdup(arr[0]);
-	i = 1;
-	while (arr[i])
-	{
-		if (!separator)
-			tmp = joined;
-		else
-		{
-			tmp = ft_strjoin(joined, separator);
-			free(joined);
-		}
-		joined = ft_strjoin(tmp, arr[i]);
-		free(tmp);
-		++i;
-	}
-	return (joined);
-}
-
 char	**duplicate_strings(char **arr)
 {
 	size_t	i;

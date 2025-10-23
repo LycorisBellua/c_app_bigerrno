@@ -2,6 +2,7 @@
 
 static void	get_small_env(t_env	**lst, const char *sh_first_arg);
 static void	copy_to_lst(char **env, t_env **lst);
+static int	continued_occurrence(char *s, char c);
 static void	lst_in_p_order(t_env **env);
 
 t_env	*convert_to_lst(char **env, const char *sh_first_arg)
@@ -16,24 +17,6 @@ t_env	*convert_to_lst(char **env, const char *sh_first_arg)
 	if (lst)
 		lst_in_p_order(&lst);
 	return (lst);
-}
-
-void	swap_node_content(t_env *s1, t_env *s2)
-{
-	int		tmp_bool;
-	char	*tmp_key;
-	char	*tmp_value;
-
-	tmp_bool = s1->withvalue;
-	s1->withvalue = s2->withvalue;
-	s2->withvalue = tmp_bool;
-	tmp_key = s1->key;
-	s1->key = s2->key;
-	s2->key = tmp_key;
-	tmp_value = s1->value;
-	s1->value = s2->value;
-	s2->value = tmp_value;
-	return ;
 }
 
 static void	get_small_env(t_env	**lst, const char *sh_first_arg)
@@ -75,7 +58,7 @@ static void	copy_to_lst(char **env, t_env **lst)
 	i = 0;
 	while (env[i])
 	{
-		size = continued_occurence(env[i], '=');
+		size = continued_occurrence(env[i], '=');
 		key = ft_substr(env[i], 0, size);
 		if (!key)
 			break ;
@@ -89,6 +72,24 @@ static void	copy_to_lst(char **env, t_env **lst)
 		++i;
 	}
 	return ;
+}
+
+static int	continued_occurrence(char *s, char c)
+{
+	int	i;
+
+	i = 0;
+	if (!s)
+		return (-1);
+	while (s[i])
+	{
+		if (s[i] == c)
+			return (i);
+		++i;
+	}
+	if (c == '\n')
+		return (-1);
+	return (i);
 }
 
 static void	lst_in_p_order(t_env **env)

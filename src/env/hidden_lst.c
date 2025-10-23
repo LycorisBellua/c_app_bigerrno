@@ -36,18 +36,34 @@ int	update_hidden(t_env **hidden, char **token)
 	return (0);
 }
 
+int	firstocc(char *s, char c)
+{
+	int	i;
+
+	i = 0;
+	if (!s || !c)
+		return (-1);
+	while (s[i])
+	{
+		if (s[i] == c)
+			return (i);
+		++i;
+	}
+	return (-1);
+}
+
 static void	process_token(t_env **hidden, char *token)
 {
 	t_env	*found_node;
 	t_env	*node;
-	int		first_equal_occurence;
+	int		first_equal_occurrence;
 	int		is_append;
 	char	*key_value[2];
 
-	first_equal_occurence = firstocc(token, '=');
-	is_append = token[first_equal_occurence - 1] == '+';
-	key_value[0] = ft_substr(token, 0, first_equal_occurence - is_append);
-	key_value[1] = ft_strdup(token + first_equal_occurence + 1);
+	first_equal_occurrence = firstocc(token, '=');
+	is_append = token[first_equal_occurrence - 1] == '+';
+	key_value[0] = ft_substr(token, 0, first_equal_occurrence - is_append);
+	key_value[1] = ft_strdup(token + first_equal_occurrence + 1);
 	found_node = find_key(hidden, key_value[0]);
 	if (found_node)
 		update_value(found_node, key_value[0], key_value[1], is_append);

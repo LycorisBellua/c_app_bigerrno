@@ -1,5 +1,19 @@
 --------------------------------------------------------------------------------
 
+LINKED LISTS
+
+- We have two linked list structures for the time being: t_ex and t_env. t_ex 
+doesn't use any `lst` function, but t_env uses them. These functions are 
+actually bound to the t_env type, instead of being general-purpose linked list 
+functions. It would be better to make them more neutral, and to store them in 
+the libft as intended.
+
+--------------------------------------------------------------------------------
+
+Consider doing the TODOs that are scattered over the codebase.
+
+--------------------------------------------------------------------------------
+
 TOKEN TAGS
 
 - Add token tags.

@@ -1,4 +1,4 @@
-#include "parser.h"
+#include "bigerrno.h"
 
 static void	get_path_and_pattern(const char *s, char **path, char **pattern);
 static int	is_pattern_for_dirs(char **pattern);

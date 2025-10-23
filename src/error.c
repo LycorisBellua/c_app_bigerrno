@@ -1,6 +1,7 @@
 #include "bigerrno.h"
 
 static void	insert_string(char ***arr, char *s, size_t i);
+static char	*concatenate_strings(char **arr, const char *separator);
 
 int	output_error(int code, char *msg)
 {
@@ -44,4 +45,30 @@ static void	insert_string(char ***arr, char *s, size_t i)
 	if (s)
 		insert_array_element((void ***)arr, (void *)s, i);
 	return ;
+}
+
+static char	*concatenate_strings(char **arr, const char *separator)
+{
+	size_t	i;
+	char	*joined;
+	char	*tmp;
+
+	if (!arr || !arr[0])
+		return (0);
+	joined = ft_strdup(arr[0]);
+	i = 1;
+	while (arr[i])
+	{
+		if (!separator)
+			tmp = joined;
+		else
+		{
+			tmp = ft_strjoin(joined, separator);
+			free(joined);
+		}
+		joined = ft_strjoin(tmp, arr[i]);
+		free(tmp);
+		++i;
+	}
+	return (joined);
 }

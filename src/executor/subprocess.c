@@ -75,6 +75,17 @@ static int	execute_subshell(t_sh *sh, t_pl *pl)
 	return (sh->exit_code);
 }
 
+/*
+	TODO:
+	If you do `handle_default_background_color(1)`, there's a flash of the 
+	default color before becoming purple again. But if you don't, then even 
+	bash will keep the purple instead of resetting.
+
+	The goal is simply to tell the shell what the default color is. But since 
+	the entire process is overwritten, we don't have any memory. The only thing 
+	we have is the environment. So, store the original background (and prompt?) 
+	colors within the env.
+*/
 static void	run_cmd(t_sh *sh, t_pl *pl, char *cmd_fullpath)
 {
 	t_env	*exec_env;

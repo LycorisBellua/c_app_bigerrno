@@ -1,4 +1,4 @@
-#include "parser.h"
+#include "bigerrno.h"
 
 static char	*get_prompt_path(t_sh *sh);
 static char	*get_stylized_prompt(const char *user, const char *path,
